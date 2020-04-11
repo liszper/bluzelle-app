@@ -1,0 +1,11 @@
+{:deps {:aliases [:dev]}
+
+ :builds
+ {:app
+  {:target :react-native
+   :init-fn bluzelle.app/init
+   :output-dir "app"
+   :compiler-options {:infer-externs :auto}
+   :devtools {:autoload true
+              :preloads [shadow.expo.keep-awake]}}}}
+
