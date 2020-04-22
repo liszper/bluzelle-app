@@ -15,26 +15,31 @@
    [bluzelle.views.home :refer [HomeScreen]]))
 
 (defonce splash-img (js/require "../assets/shadow-cljs.png"))
+
 (defn Root []
   (fn []
     [NavigationContainer
      [Navigator
-      {:screenOptions (fn [route]
-                        (clj->js {:tabBarIcon (fn [focused color size]
-                                                (let [icon (r/atom "ios-settings-outline")]
-                                                  (if (= "Home" (.-name route))
-                                                    (if focused
-                                                      (swap! icon assoc "ios-chatbubbles")
-                                                      (swap! icon assoc "ios-chatbubbles-outline")))
-                                                  (if (= "Settings" (.-name route))
-                                                    (if focused
-                                                      (swap! icon assoc "ios-settings")
-                                                      (swap! icon assoc "ios-settings-outline")))
-                                                  (as-element [Icon {:name "chatbubbles" :size 25 :color color}])))}))
+      {:screenOptions 
+       (fn [route]
+         (clj->js 
+           {:tabBarIcon 
+            (fn [params]
+              (as-element
+                [Icon 
+                 {:name (case (-> route .-route .-name)
+                          "Network" "md-globe"
+                          "Chat" "md-contacts"
+                          "Settings" "md-contact"
+                          "md-add")
+                  :size (.-size params)
+                  :color (.-color params)}]))}))
+
        :tabBarOptions #js {:activeTintColor "tomato" :inactiveTintColor "gray"}}
-      [Screen {:name "Home" :component (fn [] (as-element [HomeScreen]))}]
+      [Screen {:name "Network" :component (fn [] (as-element [HomeScreen]))}]
+      [Screen {:name "Chat" :component (fn [] (as-element [Chat]))}]
       [Screen {:name "Settings" :component (fn [] (as-element [SettingsScreen]))}]
-      [Screen {:name "Chat" :component (fn [] (as-element [Chat]))}]]]))
+      ]]))
 
 (def api
   (blz/bluzelle

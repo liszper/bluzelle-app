@@ -6,7 +6,7 @@
    ["react-native-gesture-handler" :as gesture-handler]
    ["@react-navigation/native" :as react-nav-native]
    ["@react-navigation/bottom-tabs" :as rntabs]
-   ["react-native-ionicons" :as ion-icons]))
+   ["react-native-vector-icons/Ionicons" :as ion-icons]))
 
 (def platform (. (.-Platform react-native) -OS))
 
